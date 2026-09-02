@@ -55,7 +55,7 @@ class AuthController{
         $firstname = "osemen";
         $lastname = "osebonite";
         $password = password_hash("Onion$101", PASSWORD_BCRYPT);
-        $role = "all";
+        $role = "admin";
         $userId = uniqid("ADMIN_");
         $permission = "all";
         $email = "osemensilas@gmail.com";
