@@ -2,7 +2,11 @@
 
 use App\Controllers\API\AuthController;
 use App\Controllers\API\DashboardController;
+use App\Controllers\API\MigrationController;
 use App\Controllers\API\SupportChatController;
+
+/*Migrations Route*/
+$router->get('/api/run-migrations', [MigrationController::class, 'UpdateMigrations']);
 
 /*Authentication Routes*/
 $router->post('/api/admin-login', [AuthController::class, 'Login']);
@@ -14,7 +18,6 @@ $router->get('/api/get-total-sales', [DashboardController::class, 'GetTotalSales
 $router->get('/api/get-web-sales', [DashboardController::class, 'GetTotalWebSalesNum']);
 $router->get('/api/get-active-users', [DashboardController::class, 'ActiveUsers']);
 $router->get('/api/get-web-sales', [DashboardController::class, 'GetTotalWebSalesNum']);
-
 
 /**Support Chart Routes*/
 $router->get('/api/admin-get-chats', [SupportChatController::class, 'GetChats']);
