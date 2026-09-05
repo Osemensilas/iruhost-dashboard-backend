@@ -21,7 +21,10 @@ if (!isset($_SESSION['user'])) {
 header('Content-Type: application/json');
 
 $allowedOrigins = [
-    'http://localhost:3000',
+    'https://admin.iruhost.com',
+    'https://www.admin.iruhost.com',
+    'https://dashboard.iruhost.com',
+    'https://www.dashboard.iruhost.com',
 ];
 
 // Get the Origin header
