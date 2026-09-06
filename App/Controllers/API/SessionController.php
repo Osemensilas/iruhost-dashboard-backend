@@ -33,6 +33,9 @@ class SessionController{
     }
 
     public function GetUser(){
+
+        echo "Hello World";
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
             return;
