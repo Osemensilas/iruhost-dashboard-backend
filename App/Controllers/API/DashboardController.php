@@ -6,8 +6,13 @@ use App\Core\DB;
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
-use PHPMailer\PHPMailer\Exception;
+
+require_once __DIR__ . '/../../../vendor/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/../../../vendor/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/../../../vendor/PHPMailer/src/SMTP.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class DashboardController{
     protected $pdo;
