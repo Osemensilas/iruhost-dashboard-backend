@@ -274,12 +274,15 @@ class DashboardController{
 
                 $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
 
-                $this->manualExpiringMessaging($rows[0]['email']);
+                $email = $rows[0]['email'];
+                $product = $expiring;
+
+                $this->manualExpiringMessaging($email, $product);
             }
         }
     }
 
-    private function manualExpiringMessaging($emails){
-        echo $emails;
+    private function manualExpiringMessaging($email, $product){
+        echo $email . " " . $product;
     }
 }
