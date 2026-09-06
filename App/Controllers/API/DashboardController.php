@@ -223,8 +223,47 @@ class DashboardController{
             return;
         }
 
-        $data = json_decode(file_get_contents("php://input"), true);
+        $getProducts = $this->pdo->prepare("SELECT * FROM products");
+        $getProducts->execute();
 
-        print_r($data);
+        $expiring = [];
+
+        if ($getProducts->rowCount() > 0){
+            $products = $getProducts->fetchAll(PDO::FETCH_ASSOC);
+
+            $todayDate = date('Y-m-d');
+
+            foreach($products as $product){
+
+                $expiryDate = $product['expiry_date'];
+
+                $twoWeeksBefore = date('Y-m-d', strtotime('-2 weeks', strtotime($expiryDate)));
+                $threeWeeksBefore = date('Y-m-d', strtotime('-3 weeks', strtotime($expiryDate)));
+                $oneMonthBefore = date('Y-m-d', strtotime('-4 weeks', strtotime($expiryDate)));
+
+                if ($product['billing'] === "year"){
+                    if ($todayDate >= $oneMonthBefore){
+                        $expiring[] = $product;
+                    }
+                }
+
+                if ($product['billing'] === "quarter"){
+                    if ($todayDate >= $threeWeeksBefore){
+                        $expiring[] = $product;
+                    }
+                }
+
+                if ($product['billing'] === "month"){
+                    if ($todayDate >= $twoWeeksBefore){
+                        $expiring[] = $product;
+                    }
+                }
+            }
+
+            echo json_encode([
+                'status' => 'success',
+                'products' => $expiring
+            ]);
+        }
     }
 }
