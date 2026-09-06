@@ -33,15 +33,12 @@ class SessionController{
     }
 
     public function GetUser(){
-
-        echo "Hello World";
-        
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
             return;
         }
         
-        echo "admin ID: " . " " . $_SESSION['admin']['user_id'];
+        echo $_SESSION['admin']['user_id'];
     }
 
     public function Logout(){
