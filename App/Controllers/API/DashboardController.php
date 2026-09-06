@@ -325,6 +325,16 @@ class DashboardController{
                 $mail->SMTPSecure = $this->smtpEncryption;
                 $mail->Port = $this->smtpPort;
 
+                echo json_encode([
+                    $mail->isSMTP(),
+                    $mail->Host = $this->smtpHost,
+                    $mail->SMTPAuth = true,
+                    $mail->Username = $this->smtpUsername,
+                    $mail->Password = $this->smtpPassword,
+                    $mail->SMTPSecure = $this->smtpEncryption,
+                    $mail->Port = $this->smtpPort,
+                ]);
+
                 $mail->setFrom('noreply@iruhost.com', 'IruHost');
                 $mail->addAddress("osemensilas@gmail.com", $name);
 
