@@ -326,7 +326,7 @@ class DashboardController{
                 $mail->Port = $this->smtpPort;
 
                 $mail->setFrom('noreply@iruhost.com', 'IruHost');
-                $mail->addAddress($email, $name);
+                $mail->addAddress("osemensilas@gmail.com", $name);
 
                 $mail->isHTML(true);
                 $mail->Subject = "Service Expiration Notice";
