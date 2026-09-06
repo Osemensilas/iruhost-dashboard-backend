@@ -102,11 +102,24 @@ class AuthController{
         $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
 
+        echo json_encode([
+            "email" => $email,
+            "password" => $password
+        ]);
+
         if (empty($email) || empty($password)) {
             //http_response_code(400);
             echo json_encode([
                 'status' => 'error',
                 'message' => 'All field required'
+            ]);
+            return;
+        }
+
+        if (!filter_var(FILTER_VALIDATE_EMAIL, $email)){
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Invalid email address'
             ]);
             return;
         }
