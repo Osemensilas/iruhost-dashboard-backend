@@ -127,6 +127,8 @@ class AuthController{
         $stmt = $this->pdo->prepare("SELECT * FROM admin_users WHERE email = ? OR role = ?");
         $stmt->execute([$email, 'admin']);
 
+        print_r($stmt->rowCount());
+
         if ($stmt->rowCount() < 1){
             echo json_encode([
                 'status' => 'error',
