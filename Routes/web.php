@@ -3,10 +3,14 @@
 use App\Controllers\API\AuthController;
 use App\Controllers\API\DashboardController;
 use App\Controllers\API\MigrationController;
+use App\Controllers\API\SessionController;
 use App\Controllers\API\SupportChatController;
 
 /*Migrations Route*/
 $router->get('/api/run-migrations', [MigrationController::class, 'UpdateMigrations']);
+
+/*Session Rotes*/
+$router->get('/api/get-user', [SessionController::class, 'GetUser']);
 
 /*Authentication Routes*/
 $router->post('/api/admin-login', [AuthController::class, 'Login']);

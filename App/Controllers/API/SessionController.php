@@ -19,10 +19,10 @@ class SessionController{
 
         header("Content-Type: application/json");
 
-        if (isset($_SESSION['user'])){
+        if (isset($_SESSION['admin'])){
             echo json_encode([
                 'success' => true,
-                'user' => $_SESSION['user']
+                'user' => $_SESSION['admin']
             ]);
         }else{
             echo json_encode([
@@ -30,5 +30,14 @@ class SessionController{
                 "message" => "No active session"
             ]);
         }
+    }
+
+    public function GetUser(){
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+            return;
+        }
+        
+        print_r($_SESSION['admin']);
     }
 }
