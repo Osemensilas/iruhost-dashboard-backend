@@ -274,7 +274,7 @@ class DashboardController{
 
                 $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
 
-                print_r($rows);
+                print_r($rows[0]);
             }
         }
     }
