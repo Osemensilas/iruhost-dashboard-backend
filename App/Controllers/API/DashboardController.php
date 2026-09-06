@@ -227,6 +227,7 @@ class DashboardController{
         $getProducts->execute();
 
         $expiring = [];
+        $userId = [];
 
         if ($getProducts->rowCount() > 0){
             $products = $getProducts->fetchAll(PDO::FETCH_ASSOC);
@@ -236,6 +237,7 @@ class DashboardController{
             foreach($products as $product){
 
                 $expiryDate = $product['expiry_date'];
+                $userId = $product['user_id'];
 
                 $twoWeeksBefore = date('Y-m-d', strtotime('-2 weeks', strtotime($expiryDate)));
                 $threeWeeksBefore = date('Y-m-d', strtotime('-3 weeks', strtotime($expiryDate)));
@@ -262,8 +264,22 @@ class DashboardController{
 
             echo json_encode([
                 'status' => 'success',
-                'products' => $expiring
+                'products' => $expiring,
+                'user_id' => $userId
             ]);
+            $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+            $getUsers->execute([$userId]);
+
+            if ($getUsers->rowCount() < 0){
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'No product expiring'
+                ]);
+            }
+
+            $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
+
+            print_r($rows);
         }
     }
 }
