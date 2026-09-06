@@ -23,6 +23,8 @@ $router->get('/api/get-total-sales', [DashboardController::class, 'GetTotalSales
 $router->get('/api/get-web-sales', [DashboardController::class, 'GetTotalWebSalesNum']);
 $router->get('/api/get-active-users', [DashboardController::class, 'ActiveUsers']);
 $router->get('/api/get-web-sales', [DashboardController::class, 'GetTotalWebSalesNum']);
+$router->get('/api/expiring-products', [DashboardController::class, 'ExpiringProducts']);
+$router->get('/api/expiring-message', [DashboardController::class, 'ExpiringMessage']);
 
 /**Support Chart Routes*/
 $router->get('/api/admin-get-chats', [SupportChatController::class, 'GetChats']);
