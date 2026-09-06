@@ -35,7 +35,7 @@ class MigrationController{
 
         // --- Path setup ---
         $phpPath = '/usr/local/bin/php'; // cPanel PHP CLI path (usually this works)
-        $migrateScript = __DIR__ . '/../../../commands/migrate.php';
+        $migrateScript = __DIR__ . '/../../../Commands/migrate.php';
         $logDir = __DIR__ . '/../../../storage';
 
         if (!file_exists($migrateScript)) {
