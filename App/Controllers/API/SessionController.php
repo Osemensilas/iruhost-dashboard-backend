@@ -38,7 +38,7 @@ class SessionController{
             return;
         }
         
-        echo $_SESSION['admin']['user_id'];
+        echo "admin ID: " . " " . $_SESSION['admin']['user_id'];
     }
 
     public function Logout(){
