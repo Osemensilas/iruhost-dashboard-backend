@@ -265,19 +265,19 @@ class DashboardController{
                 'status' => 'success',
                 'products' => $expiring,
             ]);
-            $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
-            $getUsers->execute([$expiring['user_id']]);
+            // $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+            // $getUsers->execute([$expiring['user_id']]);
 
-            if ($getUsers->rowCount() < 0){
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'No product expiring'
-                ]);
-            }
+            // if ($getUsers->rowCount() < 0){
+            //     echo json_encode([
+            //         'status' => 'success',
+            //         'message' => 'No product expiring'
+            //     ]);
+            // }
 
-            $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
+            // $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
 
-            print_r($rows);
+            // print_r($rows);
         }
     }
 }
