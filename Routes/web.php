@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\API\AuthController;
+use App\Controllers\API\AutomaticController;
 use App\Controllers\API\DashboardController;
 use App\Controllers\API\MigrationController;
 use App\Controllers\API\SessionController;
@@ -15,7 +16,10 @@ $router->get('/api/logout', [SessionController::class, 'Logout']);
 
 /*Authentication Routes*/
 $router->post('/api/admin-login', [AuthController::class, 'Login']);
-$router->post('/api/create-main-admin', [AuthController::class, 'CreateMainAdministrator']);
+
+/*Auto Controller*/
+$router->post('/api/create-main-admin', [AutomaticController::class, 'CreateMainAdministrator']);
+$router->get('/api/auto-expiring', [AutomaticController::class, 'AutoExpiring']);
 
 /** Dashboard Routes */
 $router->get('/api/get-signups', [DashboardController::class, 'SignUps']);

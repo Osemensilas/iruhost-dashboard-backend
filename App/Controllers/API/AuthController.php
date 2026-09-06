@@ -46,51 +46,6 @@ class AuthController{
         $this->smtpEncryption = $_ENV['SMTP_ENCRYPTION'] ?? null;
     }
 
-    public function CreateMainAdministrator(){
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-            return;
-        }
-
-        $firstname = "osemen";
-        $lastname = "osebonite";
-        $password = password_hash("Onion$101", PASSWORD_BCRYPT);
-        $role = "admin";
-        $userId = uniqid("ADMIN_");
-        $permission = "all";
-        $email = "osemensilas@gmail.com";
-
-        $stmt = $this->pdo->prepare("INSERT INTO `admin_users`(`user_id`, `role`, `permission`, `firstname`,`lastname`, `email`, `password`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-        try{
-
-            $stmt->execute([$userId, $role, $permission, $firstname, $lastname, $email, $password]);
-
-            $_SESSION['user'] = [
-                'user_id' => $userId,
-                'name' => $firstname . " " . $lastname,
-                'email' => $email,
-            ];
-
-            session_regenerate_id(true);
-
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'successful'
-            ]);
-
-        }catch(Exception $err){
-
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Database Error: ' . $err->getMessage()
-            ]);
-
-        }
-
-    }
-
     public function Login(){
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
