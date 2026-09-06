@@ -137,8 +137,6 @@ class AuthController{
 
         $row = $stmt->fetch();
 
-        print_r($row);
-
         if (!password_verify($password, $row['password'])){
             echo json_encode([
                 'status' => 'error',
