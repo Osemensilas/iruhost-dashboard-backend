@@ -116,7 +116,7 @@ class AuthController{
             return;
         }
 
-        if (!filter_var(FILTER_VALIDATE_EMAIL, $email)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Invalid email address'
