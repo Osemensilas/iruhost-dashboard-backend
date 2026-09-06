@@ -6,7 +6,7 @@ use App\Core\DB;
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
-use Exception;
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class DashboardController{
