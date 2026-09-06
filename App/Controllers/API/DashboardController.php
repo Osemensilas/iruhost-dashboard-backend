@@ -280,6 +280,6 @@ class DashboardController{
     }
 
     private function manualExpiringMessaging($emails){
-        print_r($emails);
+        echo $emails;
     }
 }
