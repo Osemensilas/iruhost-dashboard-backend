@@ -11,6 +11,7 @@ $router->get('/api/run-migrations', [MigrationController::class, 'UpdateMigratio
 
 /*Session Rotes*/
 $router->get('/api/get-user', [SessionController::class, 'GetUser']);
+$router->get('/api/logout', [SessionController::class, 'Logout']);
 
 /*Authentication Routes*/
 $router->post('/api/admin-login', [AuthController::class, 'Login']);

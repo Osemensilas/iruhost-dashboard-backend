@@ -40,4 +40,16 @@ class SessionController{
         
         print_r($_SESSION['admin']);
     }
+
+    public function Logout(){
+        if (isset($_SESSION['user'])){
+            if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+                return;
+            }
+            session_unset();
+            session_destroy();
+            echo json_encode(['status' => 'success', 'message' => 'Logged out']);
+        }
+    }
 }
