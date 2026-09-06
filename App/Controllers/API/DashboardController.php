@@ -261,11 +261,6 @@ class DashboardController{
                 }
             }
 
-            echo json_encode([
-                'status' => 'success',
-                'products' => $expiring,
-            ]);
-
             foreach($expiring as $ex){
                 $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
                 $getUsers->execute([$ex['user_id']]);
@@ -279,7 +274,7 @@ class DashboardController{
 
                 $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
 
-                print_r($rows);
+                print_r($rows['email']);
             }
         }
     }
