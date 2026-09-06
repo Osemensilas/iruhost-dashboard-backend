@@ -261,28 +261,30 @@ class DashboardController{
                 }
             }
 
-            foreach($expiring as $ex){
-                $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
-                $getUsers->execute([$ex['user_id']]);
-
-                if ($getUsers->rowCount() < 0){
-                    echo json_encode([
-                        'status' => 'success',
-                        'message' => 'No product expiring'
-                    ]);
-                }
-
-                $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
-
-                $email = $rows[0]['email'];
-                $expiring;
-
-                $this->manualExpiringMessaging($email, $expiring);
-            }
+            $this->manualExpiringMessaging($expiring);
         }
     }
 
-    private function manualExpiringMessaging($email, $expiring){
-        print_r($expiring);
+    private function manualExpiringMessaging($expiring){
+        foreach($expiring as $ex){
+            $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+            $getUsers->execute([$ex['user_id']]);
+
+            if ($getUsers->rowCount() < 0){
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'No product expiring'
+                ]);
+            }
+
+            $rows = $getUsers->fetchAll(PDO::FETCH_ASSOC);
+
+            $email = $rows[0]['email'];
+
+            echo json_encode([
+                "email" => $email,
+                "product" => $expiring
+            ]);
+        }
     }
 }
