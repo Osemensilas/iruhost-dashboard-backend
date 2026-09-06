@@ -124,7 +124,7 @@ class AuthController{
             return;
         }
 
-        $stmt = $this->pdo->prepare("SELECT * FROM admin_users WHERE email = ? OR role = ?");
+        $stmt = $this->pdo->prepare("SELECT * FROM admin_users WHERE email = ? AND role = ?");
         $stmt->execute([$email, 'admin']);
 
         print_r($stmt->rowCount());
