@@ -283,6 +283,6 @@ class DashboardController{
     }
 
     private function manualExpiringMessaging($email, $product){
-        echo $email . " " . $product;
+        print_r($email . " " . $product);
     }
 }
