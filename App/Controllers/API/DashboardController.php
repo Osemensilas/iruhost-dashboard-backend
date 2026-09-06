@@ -280,8 +280,6 @@ class DashboardController{
     }
 
     private function manualExpiringMessaging($emails){
-        foreach($emails as $email){
-            echo $email . "<br></>";
-        }
+        print_r($emails);
     }
 }
