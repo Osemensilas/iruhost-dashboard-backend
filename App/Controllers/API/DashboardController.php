@@ -265,7 +265,7 @@ class DashboardController{
                 $getUsers = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
                 $getUsers->execute([$ex['user_id']]);
 
-                if ($getUsers->rowCount() <br 0){
+                if ($getUsers->rowCount() < 0){
                     echo json_encode([
                         'status' => 'success',
                         'message' => 'No product expiring'
@@ -281,7 +281,7 @@ class DashboardController{
 
     private function manualExpiringMessaging($emails){
         foreach($emails as $email){
-            echo $email . "<br></br>";
+            echo $email . "<br></>";
         }
     }
 }
