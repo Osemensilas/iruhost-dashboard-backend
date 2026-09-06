@@ -2,11 +2,12 @@
 
 namespace App\Controllers\API;
 
-use Exception;
 use PDO;
 use App\Core\DB;
 use Dotenv\Dotenv;
+
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class AutomaticController{
 
