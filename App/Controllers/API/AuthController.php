@@ -102,11 +102,6 @@ class AuthController{
         $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
 
-        echo json_encode([
-            "email" => $email,
-            "password" => $password
-        ]);
-
         if (empty($email) || empty($password)) {
             //http_response_code(400);
             echo json_encode([
