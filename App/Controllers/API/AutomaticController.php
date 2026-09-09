@@ -284,7 +284,7 @@ class AutomaticController{
 
     private function suspendService($productId){
 
-        $getUsername = $this->pdo->prepare("SELECT * FROM pproduct WHERE product_id = ?");
+        $getUsername = $this->pdo->prepare("SELECT * FROM products WHERE product_id = ?");
         $getUsername->execute([$productId]);
 
         if ($getUsername->rowCount() < 1){
