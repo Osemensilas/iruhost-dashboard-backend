@@ -17,6 +17,9 @@ class AutomaticController{
     protected $smtpHost;
     protected $smtpPort;
     protected $smtpEncryption;
+    protected $whmUsername;
+    protected $whmApiToken;
+    protected $whmHostname;
 
     public function __construct() {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
@@ -30,6 +33,9 @@ class AutomaticController{
         $this->smtpUsername = $_ENV['SMTP_USERNAME'] ?? null;
         $this->smtpPassword = $_ENV['SMTP_PASSWORD'] ?? null;
         $this->smtpEncryption = $_ENV['SMTP_ENCRYPTION'] ?? null;
+        $this->whmUsername = $_ENV['WHM_USERNAME'] ?? null;
+        $this->whmApiToken = $_ENV['WHM_API_TOKEN'] ?? null;
+        $this->whmHostname = $_ENV['WHM_HOST'] ?? null;
     }
     public function CreateMainAdministrator(){
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -104,6 +110,7 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "two weeks"
                     ];
+                    $this->expiringMessage($expiring);
                 }
 
                 if ($now === $expiryDate){
@@ -111,6 +118,7 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "today"
                     ];
+                    $this->expiringMessage($expiring);
                 }
 
                 if ($now === $expiryDatePlusOneDay){
@@ -118,6 +126,7 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "one day"
                     ];
+                    $this->expiringMessage($expiring);
                 }
 
                 if ($now === $expiryDatePlusTwoDays){
@@ -125,6 +134,7 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "two days"
                     ];
+                    $this->expiringMessage($expiring);
                 }
 
                 if ($now === $expiryDatePlusThreeDays){
@@ -132,6 +142,7 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "three days"
                     ];
+                    $this->expiringMessage($expiring);
                 }
 
                 if ($now > $expiryDatePlusThreeDays){
@@ -139,10 +150,9 @@ class AutomaticController{
                         'product' => $row,
                         'period' => "expired"
                     ];
+                    $this->expiringMessage($expiring);
                 }
             }
-
-            $this->expiringMessage($expiring);
         }
     }
 
@@ -273,6 +283,61 @@ class AutomaticController{
     }
 
     private function suspendService($productId){
-        echo "Suspending service with ID: {$productId}\n";
+
+        $getUsername = $this->pdo->prepare("SELECT * FROM pproduct WHERE product_id = ?");
+        $getUsername->execute([$productId]);
+
+        if ($getUsername->rowCount() < 1){
+            return;
+        }
+
+        $rows = $getUsername->fetch(PDO::FETCH_ASSOC);
+
+        $username = $rows['url'];
+        $reason = 'Suspended via billing system';
+
+        // WHM server connection details — pull these from config/env, not hardcoded
+        $whmHost   = $this->whmHostname;      // e.g. 'yourserver.com'
+        $whmPort   = 2087;
+        $whmUser   = $this->whmUsername;      // typically 'root' or a reseller with suspend privileges
+        $whmToken  = $this->whmApiToken; // WHM API token (preferred over password auth)
+
+        $query = http_build_query([
+            'user'   => $username,
+            'reason' => $reason,
+        ]);
+
+        $url = "https://{$whmHost}:{$whmPort}/json-api/suspendacct?api.version=1&{$query}";
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_HTTPHEADER     => [
+                "Authorization: whm {$whmUser}:{$whmToken}",
+            ],
+            CURLOPT_TIMEOUT        => 30,
+        ]);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            curl_close($ch);
+            echo "cURL error while suspending {$username}: {$error}\n";
+            return false;
+        }
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+
+        if (isset($data['metadata']['result']) && $data['metadata']['result'] == 1) {
+            echo "Successfully suspended account '{$username}' (product ID {$productId}).\n";
+            return true;
+        }
+
+        $reasonMsg = $data['metadata']['reason'] ?? 'Unknown error';
+        echo "Failed to suspend '{$username}': {$reasonMsg}\n";
+        return false;
     }
 }
