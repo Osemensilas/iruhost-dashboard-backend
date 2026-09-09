@@ -4,6 +4,7 @@ use App\Controllers\API\AuthController;
 use App\Controllers\API\AutomaticController;
 use App\Controllers\API\DashboardController;
 use App\Controllers\API\MigrationController;
+use App\Controllers\API\PlansController;
 use App\Controllers\API\SessionController;
 use App\Controllers\API\SupportChatController;
 
@@ -45,3 +46,6 @@ $router->post('/api/admin-post-support-message', [SupportChatController::class, 
 $router->post('/api/close-support-chats', [SupportChatController::class, 'CloseSupportChat']);
 $router->get('/api/get-user-comments', [SupportChatController::class, 'GetUserComments']);
 $router->post('/api/reply-user-comments', [SupportChatController::class, 'ReplyUserComments']);
+
+/*Plans Route*/
+$router->post('/api/add-hosting-plan', [PlansController::class, 'AddHostingPlan']);
