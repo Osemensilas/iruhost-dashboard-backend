@@ -75,7 +75,8 @@ class PlansController{
 
             echo json_encode([
                 "status" => "success",
-                "data" => $data
+                "data" => $data,
+                "message" => "success"
             ]);
             return;
         }
@@ -105,7 +106,8 @@ class PlansController{
 
             echo json_encode([
                 "status" => "success",
-                "data" => $data
+                "data" => $data,
+                "message" => "success"
             ]);
             return;
         }
