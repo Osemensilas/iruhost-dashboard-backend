@@ -68,6 +68,11 @@ class PlansController{
                 return;
             }
 
+            $hostingId = uniqid('HOSTING_');
+
+            $insert = $this->pdo->prepare("INSERT INTO `hosting_list`(`hosting_id`, `hosting_name`, `hosting_price`) VALUES ('?','?','?')");
+            $insert->execute([$hostingId, $planName, $planPrice]);
+
             echo json_encode([
                 "status" => "success",
                 "data" => $data
@@ -94,6 +99,9 @@ class PlansController{
                 ]);
                 return;
             }
+
+            $update = $this->pdo->prepare("UPDATE `hosting_list` SET `hosting_name`=?,`hosting_price`=? WHERE hosting_name = ?");
+            $update->execute([$planName, $planPrice, $planName]);
 
             echo json_encode([
                 "status" => "success",
