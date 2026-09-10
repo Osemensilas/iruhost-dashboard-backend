@@ -49,4 +49,4 @@ $router->post('/api/reply-user-comments', [SupportChatController::class, 'ReplyU
 
 /*Plans Route*/
 $router->post('/api/add-hosting-plan', [PlansController::class, 'AddHostingPlan']);
-$router->post('/api/fetch-hosting-plans', [PlansController::class, 'FetchHostingPlans']);
+$router->get('/api/fetch-hosting-plans', [PlansController::class, 'FetchHostingPlans']);
