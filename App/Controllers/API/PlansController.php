@@ -70,7 +70,7 @@ class PlansController{
 
             $hostingId = uniqid('HOSTING_');
 
-            $insert = $this->pdo->prepare("INSERT INTO `hosting_list`(`hosting_id`, `hosting_name`, `hosting_price`) VALUES ('?','?','?')");
+            $insert = $this->pdo->prepare("INSERT INTO `hosting_list`(`hosting_id`, `hosting_name`, `hosting_price`) VALUES (?,?,?)");
             $insert->execute([$hostingId, $planName, $planPrice]);
 
             echo json_encode([
