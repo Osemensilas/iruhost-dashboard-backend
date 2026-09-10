@@ -123,5 +123,23 @@ class PlansController{
             echo json_encode(['status' => 'error', 'message' => 'You do not have permission']);
             return;
         }
+
+        $getSharedHosting = $this->pdo->prepare("SELECT * FROM `hosting_list` WHERE category = ?");
+        $getSharedHosting->execute(["shared_hosting"]);
+
+        if ($getSharedHosting->rowCount() > 0){
+            $rows = $getSharedHosting->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_encode([
+                "status" => "success",
+                "hosting" => $rows
+            ]);
+            return;
+        }
+
+        echo json_encode([
+            "status" => "success",
+            "hosting" => []
+        ]);
     }
 }
