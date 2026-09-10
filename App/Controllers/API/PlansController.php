@@ -30,8 +30,9 @@ class PlansController{
         $planPrice  = $data['planPrice'] ?? null;
         $operation = $data['operation'] ?? null;
         $plans = $data['plans'] ?? null;
+        $category = $data['product'];
 
-        if (!$planName || !$planPrice){
+        if (!$planName || !$planPrice || !$category){
             echo json_encode([
                 "status" => "error",
                 "message" => "Plan Name and Plan Price required"
@@ -70,8 +71,8 @@ class PlansController{
 
             $hostingId = uniqid('HOSTING_');
 
-            $insert = $this->pdo->prepare("INSERT INTO `hosting_list`(`hosting_id`, `hosting_name`, `hosting_price`) VALUES (?,?,?)");
-            $insert->execute([$hostingId, $planName, $planPrice]);
+            $insert = $this->pdo->prepare("INSERT INTO `hosting_list`(`hosting_id`, `hosting_name`, `hosting_price`, `category`) VALUES (?,?,?,?)");
+            $insert->execute([$hostingId, $planName, $planPrice, $category]);
 
             echo json_encode([
                 "status" => "success",
@@ -124,8 +125,8 @@ class PlansController{
             return;
         }
 
-        $getSharedHosting = $this->pdo->prepare("SELECT * FROM `hosting_list` WHERE category = ?");
-        $getSharedHosting->execute(["shared_hosting"]);
+        $getSharedHosting = $this->pdo->prepare("SELECT * FROM `hosting_list`");
+        $getSharedHosting->execute([]);
 
         if ($getSharedHosting->rowCount() > 0){
             $rows = $getSharedHosting->fetchAll(PDO::FETCH_ASSOC);
