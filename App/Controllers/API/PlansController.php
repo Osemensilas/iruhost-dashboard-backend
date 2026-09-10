@@ -26,9 +26,58 @@ class PlansController{
 
         $data = json_decode(file_get_contents("php://input"), true);
 
-        echo json_encode([
-            "status" => "success",
-            "data" => $data
-        ]);
+        $planName = strtolower($data['planName']) ?? null;
+        $planPrice  = $data['planPrice'] ?? null;
+        $operation = $data['operation'] ?? null;
+        $plans = $data['plans'] ?? null;
+
+        if (!$planName || !$planPrice){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Plan Name and Plan Price required"
+            ]);
+            return;
+        }
+
+        if (!preg_match('/^[a-zA-Z]+$/', $planName)){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid plan name"
+            ]);
+            return;
+        }
+
+        if (!preg_match('/^[0-9||.]+$/', $planPrice)){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid plan price"
+            ]);
+            return;
+        }
+
+        if ($operation === "add hosting"){
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $data
+            ]);
+            return;
+        }
+
+        if ($operation === "update hosting"){
+
+            if (!$plans){
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Please select a plan"
+                ]);
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $data
+            ]);
+            return;
+        }
     }
 }
