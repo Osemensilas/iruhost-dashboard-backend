@@ -40,7 +40,7 @@ class PlansController{
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z]+$/', $planName)){
+        if (!preg_match('/^[a-zA-Z|| ]+$/', $planName)){
             echo json_encode([
                 "status" => "error",
                 "message" => "Invalid plan name"
