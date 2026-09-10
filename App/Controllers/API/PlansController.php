@@ -57,6 +57,17 @@ class PlansController{
 
         if ($operation === "add hosting"){
 
+            $check = $this->pdo->prepare("SELECT * FROM hosting_list WHERE hosting_name = ?");
+            $check->execute([$planName]);
+
+            if ($check->rowCount() > 0){
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Plan already exist"
+                ]);
+                return;
+            }
+
             echo json_encode([
                 "status" => "success",
                 "data" => $data
@@ -71,6 +82,17 @@ class PlansController{
                     "status" => "error",
                     "message" => "Please select a plan"
                 ]);
+            }
+
+            $check = $this->pdo->prepare("SELECT * FROM hosting_list WHERE hosting_name = ?");
+            $check->execute([$planName]);
+
+            if ($check->rowCount() < 1){
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Plan do not exist"
+                ]);
+                return;
             }
 
             echo json_encode([
