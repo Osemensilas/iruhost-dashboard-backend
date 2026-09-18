@@ -102,6 +102,7 @@ class AutomaticController{
                 $expiryDatePlusOneDay   = date('Y-m-d H:i:s', strtotime($expiryDate . ' +1 day'));
                 $expiryDatePlusTwoDays  = date('Y-m-d H:i:s', strtotime($expiryDate . ' +2 days'));
                 $expiryDatePlusThreeDays = date('Y-m-d H:i:s', strtotime($expiryDate . ' +3 days'));
+                $expiryDatePlusEightDays = date('Y-m-d H:i:s', strtotime($expiryDate . ' +8 days'));
             
                 $now = date('Y-m-d');
 
@@ -145,7 +146,7 @@ class AutomaticController{
                     $this->expiringMessage($expiring);
                 }
 
-                if ($now > $expiryDatePlusThreeDays){
+                if ($now > $expiryDatePlusThreeDays && $now < $expiryDatePlusEightDays){
                     $expiring[] = [
                         'product' => $row,
                         'period' => "expired"
