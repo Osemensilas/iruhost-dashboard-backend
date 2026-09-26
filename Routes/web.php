@@ -10,7 +10,7 @@ use App\Controllers\API\SupportChatController;
 
 /*Migrations Route*/
 $router->get('/api/run-migrations', [MigrationController::class, 'UpdateMigrations']);
-$router->post('/api/automatic-cpanel', [MigrationController::class, 'AutomaticCpanel']);
+$router->post('/api/automatic-cpanel', [AutomaticController::class, 'AutomaticCpanel']);
 
 /*Session Rotes*/
 $router->get('/api/get-user', [SessionController::class, 'GetUser']);
