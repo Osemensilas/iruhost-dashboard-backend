@@ -341,4 +341,22 @@ class AutomaticController{
         echo "Failed to suspend '{$username}': {$reasonMsg}\n";
         return false;
     }
+
+    public function AutomaticCpanel(){
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+            return;
+        }
+
+        $stmt = $this->pdo->prepare("SELECT * FROM `products` WHERE `product` = 'hosting'");
+        $stmt->execute();
+
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Automatic Cpanel creation process completed.',
+            'products' => $products
+        ]);
+    }
 }
